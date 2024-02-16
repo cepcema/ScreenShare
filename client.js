@@ -1,12 +1,20 @@
-const video = document.getElementById("remoteVideo");
-// Rest of your code follows...
+const video = document.getElementById("videosContainer");
 
+// Add an event listener to trigger screen sharing when a click event occurs
 document.addEventListener("click", () => {
   // Call getDisplayMedia inside the event listener
   navigator.mediaDevices
     .getDisplayMedia({ video: true })
     .then((stream) => {
-      video.srcObject = stream;
+      // Clear previous videos
+      video.innerHTML = "";
+
+      const screenVideo = document.createElement("video");
+      screenVideo.srcObject = stream;
+      screenVideo.autoplay = true;
+
+      // Append the screen sharing video to the videos container
+      video.appendChild(screenVideo);
 
       const peerConnection = new RTCPeerConnection();
 
