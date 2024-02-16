@@ -4,14 +4,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Screen Sharing</title>
+    <title>Login</title>
 </head>
 
 <body>
-    <h1>Screen Sharing</h1>
-    <video id="remoteVideo" autoplay></video>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.0/socket.io.js"></script>
-    <script src="client.js"></script>
+    <h1>Login</h1>
+    <form id="loginForm">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Login</button>
+    </form>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get the entered password
+            const password = document.getElementById("password").value;
+
+            // Load the password from the config file
+            fetch("config.js")
+                .then((response) => response.text()) // Convert the response to text
+                .then((config) => {
+                    // Parse the config file to extract the password
+                    const passwordFromConfig = JSON.parse(config).password;
+
+                    // Check if the entered password matches the stored password
+                    if (password === passwordFromConfig) {
+                        // Redirect to the main page if the password is correct
+                        window.location.href = "main.html"; // Change "main.html" to your main page filename
+                    } else {
+                        // Display an alert message if the password is incorrect
+                        alert("Incorrect password. Please try again.");
+                    }
+                })
+                .catch((error) => {
+                    // Log and display an error message if there's an error loading the config file
+                    console.error("Error loading config file:", error);
+                    alert("Failed to load configuration. Please try again later.");
+                });
+        });
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+</head>
+
+<body>
+    <h1>Welcome to the Main Page</h1>
+    <div id="videosContainer"></div>
+    <button id="shareScreenBtn">Share Screen</button>
+
+    <script>
+        const videosContainer = document.getElementById("videosContainer");
+        const shareScreenBtn = document.getElementById("shareScreenBtn");
+
+        shareScreenBtn.addEventListener("click", () => {
+            navigator.mediaDevices
+                .getDisplayMedia({
+                    video: true
+                })
+                .then((stream) => {
+                    const video = document.createElement("video");
+                    video.srcObject = stream;
+                    video.autoplay = true;
+                    videosContainer.appendChild(video);
+                })
+                .catch((error) => {
+                    console.error("Error accessing screen sharing:", error);
+                });
+        });
+    </script>
+</body>
+
+</html>
